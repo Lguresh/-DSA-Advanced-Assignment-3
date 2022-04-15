@@ -36,17 +36,49 @@ class Node {
   //=============================================== //
   
   // 2.) Find height of a given tree
-  function maxDepth(root) {
-    if (root == null) return -1;
-    else {
-      var leftDepth = maxDepth(root.left);
-      var rightdepth = maxDepth(root.right);
-      if (leftDepth > rightdepth) return leftDepth + 1;
-      else return rightdepth + 1;
+  // A binary tree node
+class Node
+{
+    constructor(item)
+    {
+        this.data=item;
+        this.left=this.right=null;
     }
-  }
-  console.log(`Height Of the Tree is ${maxDepth(root)}`);
-  
+}
+ 
+    let root;
+     
+     /* Compute the "maxDepth" of a tree -- the number of
+       nodes along the longest path from the root node
+       down to the farthest leaf node.*/
+    function maxDepth(node)
+    {
+        if (node == null)
+            return -1;
+        else
+        {
+            /* compute the depth of each subtree */
+            let lDepth = maxDepth(node.left);
+            let rDepth = maxDepth(node.right);
+   
+            /* use the larger one */
+            if (lDepth > rDepth)
+                return (lDepth + 1);
+             else
+                return (rDepth + 1);
+        }
+    }
+     
+    /* Driver program to test above functions */
+     
+        root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+   
+        document.write("Height of tree is : " +
+                                      maxDepth(root));
   // ===============================================  //
   
   // 3.) Perform Pre-order, Post-order, In-order traversal
@@ -136,22 +168,59 @@ class Node {
   // ===============================================  //
   
   // 6.) Find sum of all left leaves in a given Binary Tree
-  function isLeaf(root) {
-    if (root == null) return false;
-    if (root.left == null && root.right == null) return true;
-    return false;
-  }
-  function leftLeavesSum(root) {
-    var res = 0;
-    if (root != null) {
-      if (isLeaf(root.left)) res += root.left.value;
-      else res += leftLeavesSum(root.left);
-      res += leftLeavesSum(root.right);
+  class Node {
+    constructor(item) {
+        this.data = item;
+        this.left = this.right = null;
     }
-    return res;
-  }
-  
-  console.log(leftLeavesSum(root));
+}
+ 
+// Passing sum as accumulator and implementing pass by reference
+// of sum variable
+class Sum {
+constructor(){
+    this.sum = 0;
+    }
+}
+ 
+ 
+    var root;
+ 
+    /* Pass in a sum variable as an accumulator */
+    function leftLeavesSumRec( node,  isleft,  summ) {
+        if (node == null)
+            return;
+ 
+        // Check whether this node is a leaf node and is left.
+        if (node.left == null && node.right == null && isleft)
+            summ.sum = summ.sum + node.data;
+ 
+        // Pass true for left and false for right
+        leftLeavesSumRec(node.left, true, summ);
+        leftLeavesSumRec(node.right, false, summ);
+    }
+ 
+    // A wrapper over above recursive function
+    function leftLeavesSum( node) {
+         suum = new Sum();
+ 
+        // use the above recursive function to evaluate sum
+        leftLeavesSumRec(node, false, suum);
+ 
+        return suum.sum;
+    }
+             
+        root = new Node(20);
+        root.left = new Node(9);
+        root.right = new Node(49);
+        root.left.right = new Node(12);
+        root.left.left = new Node(5);
+        root.right.left = new Node(23);
+        root.right.right = new Node(52);
+        root.left.right.right = new Node(12);
+        root.right.right.left = new Node(50);
+ 
+        document.write("The sum of leaves is " + leftLeavesSum(root));
   
   // ===============================================  //
   
